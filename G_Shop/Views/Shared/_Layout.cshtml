@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>G_SHOP</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/shop-homepage.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    @* Jquery UI library (datetimepicker) *@
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jsUser.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header" style="margin-top:4px">
+                
+                <a class="navbar-brand" href="/Home/Index">G_SHOP</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse row" id="bs-example-navbar-collapse-1" style="margin-top:10px">
+                <div class="row">
+                    @using(Html.BeginForm("Tim", "Home", FormMethod.Get)) {
+                        <div class="col-md-offset-2 col-md-3">
+                            @Html.TextBox("ten", "", new { placeholder = "Tìm kiếm", @class = "form-control" })
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" value="Tìm" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    }
+                    <div class="pull-right">
+                        @if(Session["user"] == null) {
+                            <p style="padding:8px 18px 0px 0px">
+                                <a href="/Account/Register" style="color:white">Đăng kí</a> &nbsp; &nbsp;
+                                <a href="/Account/Login" style="color:white">Đăng nhập</a>  
+                            </p>
+                        } else {
+                            <p style="padding:8px 18px 0px 0px; color:gray">
+                                Chào @ViewBag.tennguoidung &nbsp; &nbsp;
+                                <span><a href="/Account/editprofile" style="color:white">Sửa thông tin</a></span>&nbsp; &nbsp;
+                                <span><a href="/Order/List" style="color:white">Hóa đơn</a></span>&nbsp; &nbsp;
+                                <span><a href="/Cart/Index" style="color:white">Giỏ hàng</a></span>&nbsp; &nbsp;
+                                <span><a href="/Account/Logoff" style="color:white">Đăng xuất</a></span>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                @*
+                    <p class="lead">Shop bán thú cưng</p>
+                *@
+                @{Html.RenderAction("_Category", "Home");}
+            </div>
+            <div class="col-md-9">
+                @RenderPage("_Slide.cshtml")
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+    <div class="container">
+        <hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- /.container -->
+    <!-- jQuery -->
+</body>
+</html>

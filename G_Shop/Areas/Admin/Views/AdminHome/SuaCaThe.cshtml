@@ -1,0 +1,112 @@
+﻿@model G_Shop.Models.CaThe
+@{
+    ViewBag.Title = "SuaCaThe";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Sửa thông tin cá thể</h2>
+@Html.ActionLink("Đổi hình ảnh", "SuaHinh", new { MaLoai = Model.MaLoai, MaCaThe = Model.MaCaThe }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Đổi video", "SuaVideoCaThe", new { MaLoai = Model.MaLoai, MaCaThe = Model.MaCaThe }, new { @class = "btn btn-primary" })
+@using(Html.BeginForm("SuaCaThe", "AdminHome", FormMethod.Post, new { @id = "form", @class = "form-horizontal", enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaCaThe)
+        @Html.HiddenFor(model => model.MaLoai)
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên:</label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.TenCaThe, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TenCaThe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Mô tả:</label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.MoTa, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày sinh:</label>
+            <div class="col-md-6">
+                <input type='text' class="form-control custom_datepicker" name="NgaySinh" value="@Model.NgaySinh.Date.ToString("d")" />
+                @*<span class="glyphicon glyphicon-calendar input-group-addon"></span>*@
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Giá mua:</label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.GiaMua, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GiaMua, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Giá bán:</label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.GiaBan, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GiaBan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.KhuyenMai, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.KhuyenMai, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KhuyenMai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Tình trạng:</label>
+            <div class="col-md-6">
+                @*@if(Model.TinhTrang == "Sẵn bán") {*@
+                <select name="tinhtrang" class="form-control" id="selTinhTrang">
+                    <option value="Sẵn bán">Sẵn bán</option>
+                    @if(Model.TinhTrang == "Đã bán") {
+                        <option value="Đã bán" selected>Đã bán</option>
+                    } else {
+                        <option value="Đã bán">Đã bán</option>
+                    }
+                    @if(Model.TinhTrang == "Đã mất") {
+                        <option value="Đã mất" selected>Đã mất</option>
+                    } else {
+                        <option value="Đã mất">Đã mất</option>
+                    }
+                </select>
+                @*} else {
+                    <input type="text" name="tinhtrang" value="@Model.TinhTrang" class="form-control" disabled />
+                    }*@
+            </div>
+        </div>
+        @*
+            <div class="form-group">
+               <label class="control-label col-sm-2">Video:</label>
+               <div class="col-sm-10">
+                  <input type="file" class="form-control" name="filevideo" value="@Model.Video" />
+               </div>
+            </div>
+        *@
+        @*
+            <div class="form-group">
+               @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-2" })
+               <div class="col-sm-10">
+               </div>
+            </div>
+        *@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <input type="submit" value="Sửa" class="btn btn-primary" />
+                @*
+                    </div>
+                    <div class="col-md-2">*@
+                <button class="btn btn-default">
+                    @Html.ActionLink("Quay lại", "CaThe", new { MaLoai = Model.MaLoai })
+                </button>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(".custom_datepicker").datepicker({
+        maxDate: 0
+    });
+    </script>

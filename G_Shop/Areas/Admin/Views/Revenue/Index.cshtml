@@ -1,0 +1,58 @@
+﻿@model IEnumerable<G_Shop.Areas.Admin.Controllers.ReportInfo>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h2>Thống kê theo  @ViewBag.Group</h2>
+
+
+
+<table class="table table-hover">
+    <tr>
+        <th>Tháng</th>
+        @*<th>Số lượng</th>*@
+        <th>Tổng cộng</th>
+        @*<th>Giá cao nhất</th>
+        <th>Giá cao nhất</th>
+        <th>Giá trung bình</th>*@
+    </tr>
+    @foreach (var Item in Model)
+    {
+        <tr>
+            <td>@Item.Group</td>
+            @*<td>@Item.Count</td>*@
+            <td>@Html.FormatValue(Item.Total, "{0:c}")</td>
+            @*<td>@Html.FormatValue(Item.MinPrice, "{0:c}")</td>
+            <td>@Html.FormatValue(Item.MaxPrice, "{0:c}")</td>
+            <td>@Html.FormatValue(Item.AvgPrice, "{0:c}")</td>*@
+        </tr>
+    }
+</table>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {   
+          var data = google.visualization.arrayToDataTable([
+          ['Tên', 'Doanh số'],
+          @foreach (var Item in Model)
+          {       
+            <text>["@Item.Group",  @Item.Total],</text>
+          }
+        ]);
+
+        var options = {
+          title: 'Kết quả thống kê',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+</script>
+
+<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
+

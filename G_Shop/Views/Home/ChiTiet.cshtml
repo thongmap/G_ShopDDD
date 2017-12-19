@@ -1,0 +1,87 @@
+﻿@model G_ShopDomain.Entities.CaThe
+
+@{
+    ViewBag.Title = "ChiTiet";
+    Layout = "~/Views/Shared/_LayoutNotSlide.cshtml";
+}
+<script src="~/Scripts/Shoppingcart.js"></script>
+<h2>Chi tiết</h2>
+<div class="col-md-6">
+    <div>
+        <img id="img_01" src="~/assets/client/images/@(Model.HinhAnh.Substring(0,Model.HinhAnh.IndexOf("|")))" class="img_detail" />
+    </div>
+    <div id="gallery_09">
+        @{ string temp = Model.HinhAnh;
+            for(int i = 0; i < 4; i++) {
+                if(temp.IndexOf("|") < 0) { break; }
+                <a href="#" data-image="/assets/client/images/@(temp.Substring(0, temp.IndexOf("|")))">
+                    <img class="gal_detail" id="img_01" src="~/assets/client/images/@(temp.Substring(0, temp.IndexOf("|")))" />
+                </a>
+                temp = temp.Substring(temp.IndexOf("|") + 1);
+            }
+        }
+    <video width="400" height="240" controls>
+        <source src="~/assets/client/videos/@Model.Video" type="video/mp4"/>
+        Trình duyệt của bạn không hỗ trợ thẻ video, vui lòng nâng cấp trình duyệt.
+    </video>
+    </div>
+</div>
+<div class="col-md-6">
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            Tên cá thể:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenCaThe) @(Model.TinhTrang != "Sẵn bán" ? "Đã bán" : "")
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+
+        <dt>
+            Giá bán:
+        </dt>
+
+        <dd style="color:red;font-weight:bold">
+            @Html.FormatValue(Model.GiaBan, "{0:c}")
+        </dd>
+        <dt>
+
+            Tuổi:
+        </dt>
+        <dd>
+            @ViewBag.TuoiCaThe
+        </dd>
+        <dt>
+
+        </dt>
+        <dd>
+
+
+            @if(Session["user"] != null && Model.TinhTrang == "Sẵn bán") {
+                <button class="add-to-cart btn-lg" data-id="@Model.MaCaThe">
+                    <span class="glyphicon glyphicon-shopping-cart">
+
+                    </span>
+                </button>
+                @*<a href="#"><img style="width:50px;height:30px" class="add-to-cart" data-id="@Model[i].MaCaThe" src="~/assets/client/images/Add to basket.png" /></a>*@
+            }
+        </dd>
+    </dl>
+</div>
+<script>
+    $("#img_01").elevateZoom({ gallery: 'gallery_09', cursor: 'pointer', galleryActiveClass: 'active', imageCrossfade: true });
+    $("#img_01").bind("click", function (e) {
+        var ez = $('#img_01').data('elevateZoom');
+        $.fancybox(ez.getGalleryList());
+        return false;
+    });
+</script>

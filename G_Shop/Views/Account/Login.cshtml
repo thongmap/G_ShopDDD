@@ -1,0 +1,89 @@
+﻿@model G_Shop.Models.ModelLogin
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutNotcate.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng nhập</title>
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+
+    @*<style>
+        #login-box {
+            margin-top: 80px;
+        }
+    </style>*@
+
+
+</head>
+<body>
+        <div id="login-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-offset-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h2 class="panel-title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Đăng nhập</h2>
+                            </div>
+                            <div class="panel-body">
+                                @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary()
+                                    <div class="form-horizontal">
+                                        <div class="form-group has-feedback">
+                                            <label class="control-label col-sm-4" for="username">Tên đăng nhập:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                                @Html.ValidationMessageFor(model => model.UserName)
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="control-label col-sm-4" for="pwd">Mật khẩu:</label>
+                                            <div class="col-sm-8">
+                                                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                                @Html.ValidationMessageFor(model => model.Password)
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <div class="col-lg-offset-4 col-sm-8">
+                                              <p>Bạn chưa có tài khoản?
+                                                <a href="/Account/Register">Đăng kí</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-4 col-sm-8">
+                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Đăng nhập</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-4 col-sm-8">
+                                                <p>
+                                                    <a href="/Home/Index"><span class="glyphicon glyphicon-home"></span> Về trang chủ</a>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="~/Scripts/bootstrap.min.js"></script>
+  
+</body>
+</html>

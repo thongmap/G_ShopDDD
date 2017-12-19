@@ -1,0 +1,57 @@
+﻿@model G_Shop.Models.CaThe
+@{
+    ViewBag.Title = "SuaCaThe";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Sửa thông tin cá thể</h2>
+@Html.ActionLink("Đổi hình ảnh", "SuaHinhAnhCaThe", new { MaLoai = Model.MaLoai, MaCaThe = Model.MaCaThe }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Đổi video", "SuaVideoCaThe", new { MaLoai = Model.MaLoai, MaCaThe = Model.MaCaThe }, new { @class = "btn btn-primary" })
+@using(Html.BeginForm("SuaVideoCaThe", "AdminHome", FormMethod.Post, new { @id = "form", @class = "form-horizontal", enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+
+    <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaCaThe)
+        @Html.HiddenFor(model => model.MaLoai)
+        <div class="row">
+
+            <label class="control-label col-md-2">Tên:</label>
+            <p style="padding-top:6px">
+            @Html.DisplayFor(model => model.TenCaThe)
+            </p>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="control-label col-md-2">Video hiện tại:</label>
+            <video width="400" height="240" controls>
+                <source src="~/assets/client/videos/@Model.Video" type="video/mp4"/>
+                Trình duyệt của bạn không hỗ trợ thẻ video, vui lòng nâng cấp trình duyệt.
+            </video>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label class="control-label col-md-2">Tải lên video mới:</label>
+            <div class="col-md-6">
+                <input type="file" name="fileVideo" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <input type="submit" value="Sửa" class="btn btn-primary" />
+                @*
+                    </div>
+                    <div class="col-md-2">*@
+                <button class="btn btn-default">
+                    @Html.ActionLink("Quay lại", "CaThe", new { MaLoai = Model.MaLoai })
+                </button>
+            </div>
+        </div>
+
+}
+@*<script type="text/javascript">
+       $('#datetimepicker1').datetimepicker(
+           {
+               format:"DD/MM/YYYY"
+           });
+    </script>*@

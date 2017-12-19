@@ -1,0 +1,72 @@
+﻿@model G_Shop.Areas.Admin.Models.LoginModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>G_SHOP ADMIN</title>
+
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        #login-box {
+            margin-top: 80px;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div id="login-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-offset-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Đăng nhập Admin</h2>
+                        </div>
+                        <div class="panel-body">
+                        @using (Html.BeginForm("Login", "AdminHome", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <div class="form-horizontal">
+                                <div class="form-group has-feedback">
+                                    <label class="control-label col-sm-4" for="username">Tên đăng nhập:</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                        @Html.ValidationMessageFor(model => model.UserName)
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label class="control-label col-sm-4" for="pwd">Mật khẩu:</label>
+                                    <div class="col-sm-8">
+                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                        @Html.ValidationMessageFor(model => model.Password)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Đăng nhập</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿@model List<G_Shop.Controllers.HoaDonDTO>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_LayoutNotSlide.cshtml";
+}
+
+<h2>Lịch sử đặt hàng</h2>
+
+<table class="table">
+    <tr>
+        <th>STT</th>
+        <th>Mã hóa đơn</th>
+        <th>Ngày mua</th>
+        <th>Tổng tiền</th>
+       
+        <th></th>
+    </tr>
+@{ int i = 0; }
+    @foreach (var o in Model)
+    {
+        <tr>
+            <td>@(++i)</td>
+            <td>@o.MaHoaDon</td>
+            <td>@Html.FormatValue(o.NgayMua, "{0:dd/MM/yyyy}")</td>
+            <td>@Html.FormatValue(o.TongTien, "{0:c}")</td>
+            
+            <td>
+                <a href="/Order/Detail/@o.MaHoaDon">Chi tiết</a>
+            </td>
+        </tr>
+    }
+</table>
+

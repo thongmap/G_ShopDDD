@@ -1,0 +1,88 @@
+﻿@model IEnumerable<G_Shop.Areas.Admin.Controllers.ReportInfo>
+@{
+    ViewBag.Title = "Loai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thống kê theo loài</h2>
+@Html.ValidationSummary()
+@using(Html.BeginForm("Loai", "Revenue")) {
+    <div class="form-group">
+        <label>Từ ngày</label>
+        <input type="text" value="@ViewBag.ngaybd" name="ngaybd" class="form-control custom_datepicker" />
+    </div>
+
+    <div class="form-group">
+        <label>Đến ngày</label>
+        <input type="text" value="@ViewBag.ngaykt" name="ngaykt" class="form-control custom_datepicker" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thống kê</button>
+}
+<div>
+    @if (Model != null)
+    {
+        <table class="table table-hover">
+            <tr>
+                <th>Tên</th>
+                @*<th>Số lượng</th>*@
+                <th>Tổng cộng</th>
+                @*<th>Giá cao nhất</th>
+                    <th>Giá cao nhất</th>
+                    <th>Giá trung bình</th>*@
+            </tr>
+            @if (Model != null)
+            {
+                foreach (var Item in Model)
+                {
+                    <tr>
+                        <td>@Item.Group</td>
+                        @*<td>@Item.Count</td>*@
+                        <td>@Html.FormatValue(Item.Total, "{0:c}")</td>
+                        @*<td>@Html.FormatValue(Item.MinPrice, "{0:c}")</td>
+                            <td>@Html.FormatValue(Item.MaxPrice, "{0:c}")</td>
+                            <td>@Html.FormatValue(Item.AvgPrice, "{0:c}")</td>*@
+                    </tr>
+                }
+
+            }
+        </table>
+
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+          ['Tên', 'Doanh số'],
+            @if (Model != null)
+            {
+          foreach (var Item in Model)
+          {
+            <text>["@Item.Group",  @Item.Total],</text>
+          }
+                    }
+        ]);
+
+                    var options = {
+          title: 'Kết quả thống kê',
+          is3D: true,
+        };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                chart.draw(data, options);
+      }
+        </script>
+
+        <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    }
+  
+</div>
+
+
+
+
+
+
+

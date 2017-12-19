@@ -1,0 +1,86 @@
+﻿@model G_Shop.Models.HoaDon
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_LayoutNotSlide.cshtml";
+}
+@Html.ValidationSummary()
+<div class="row">
+    <div class="col-md-12">
+        <h3>Xem lại đơn hàng</h3>
+    </div>
+</div>
+<hr />
+@using(Html.BeginForm()) {
+    <label>Khách hàng:</label>
+    @Model.NguoiDung.TenDangNhap
+    // Ngày mua và tổng tiền hiển thị dưới dạng text, không phải input nên phải có đoạn hidden để truyền đi
+    @Html.HiddenFor(m => m.MaNguoiDung, new { @class = "form-control" })
+    @Html.HiddenFor(m => m.NgayMua, new { @class = "form-control" })
+    @Html.HiddenFor(m => m.TongTien, new { @class = "form-control" })
+    <br />
+    <label>Ngày đặt hàng:</label>
+    @Html.FormatValue(Model.NgayMua, "{0:dd/MM/yyyy}")
+    <br />
+    <br />
+    <table class="table table-hover table-condensed">
+        <tr>
+            <th>STT</th>
+            <th>Tên cá thể</th>
+            <th>Hình</th>
+            <th>Giá</th>
+        </tr>
+        @foreach(var p in ShoppingCart.Cart.Items) {
+            int i = 0;
+            <tr>
+                <td>@(++i)</td>
+                <td>@p.TenCaThe</td>
+                <td><img src="~/assets/client/images/@(p.HinhAnh.Substring(0, p.HinhAnh.IndexOf("|")))" style="width:100px;height:50px;" alt=""></td>
+                <td>@Html.FormatValue(p.GiaBan, "{0:c}")</td>
+            </tr>
+        }
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Tổng tiền</th>
+            <th>@Html.FormatValue(Model.TongTien, "{0:c}")</th>
+        </tr>
+    </table>
+    <div class="form-group col-md-12">
+        <label>Địa chỉ giao hàng</label>
+        @Html.TextAreaFor(m => m.DiaChi, new { @class = "form-control", @style = "height:110px" })
+    </div>
+    <div class="form-group col-md-12">
+        <label>Ngày giao hàng</label>
+        <input class="form-control custom_datepicker" type="text" name="ngaygiaohang" onkeydown="return false" />
+    </div>
+    <div class="form-group col-md-12">
+        <label>Giờ giao hàng</label>
+        <select name="gioGiaoHang">
+            @for(int i = 1; i < 13; i++) {
+                <option value="@i">@i</option>
+            }
+        </select>
+        <span>:
+        </span>
+        <select name="phutGiaoHang">
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+        </select>
+        <select name="buoiGiaoHang">
+            <option value="Sáng">Sáng</option>
+            <option value="Chiều">Chiều</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary form-control" type="submit">Đặt hàng</button>
+    </div>
+
+
+}
+<script type="text/javascript">
+    $(".custom_datepicker").datepicker({
+        minDate: 0
+    });
+</script>

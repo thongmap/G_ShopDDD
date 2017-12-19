@@ -1,0 +1,63 @@
+﻿@model G_Shop.Models.HoaDon
+@{
+    ViewBag.Title = "ChiTiet";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<fieldset>
+    <legend>CHI TIẾT ĐƠN HÀNG</legend>
+    @using(Html.BeginForm()) {
+        <label>Khách hàng:</label>
+        @Model.NguoiDung.TenDangNhap
+        @Html.HiddenFor(m => m.MaNguoiDung, new { @class = "form-control" })
+        <br />
+        <label>Tổng tiền:</label>
+        @Html.FormatValue(Model.TongTien, "{0:c}")
+        <br />
+        <label>Ngày đặt hàng:</label>
+        @Html.FormatValue(Model.NgayMua, "{0:dd/MM/yyyy}")
+        <br />
+        <label>Ngày giao:</label>
+        @Html.FormatValue(Model.NgayGiaoHang, "{0:dd/MM/yyyy}")
+        <br />
+        <label>Địa chỉ giao hàng:</label>
+        @Html.DisplayFor(m => m.DiaChi, new { @class = "form-control" })
+
+        <br />
+        <br />
+    }
+
+    <table class="table">
+        <tr>
+            <th>STT</th>
+            <th>Tên cá thể</th>
+            <th>Giá bán</th>
+            <th>Số lượng</th>
+        </tr>
+        @{int i = 0; }
+        @foreach(var d in Model.ChiTietHoaDons) {
+            <tr>
+                <td>@(++i)</td>
+                <td>@d.CaThe.TenCaThe</td>
+                <td>@Html.FormatValue(d.CaThe.GiaBan, "{0:c}")</td>
+                <td>1</td>
+
+            </tr>
+        }
+
+    </table>
+    <div class="well">
+
+        <label>Tình trạng:</label>
+        @Html.DisplayFor(m => m.TinhTrang)
+    </div>
+
+</fieldset>
+@*<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+        <a href="/Home/Index" class="btn btn-default">Tiếp tục mua hàng</a>
+
+    </div>
+
+</div>*@
+

@@ -1,0 +1,180 @@
+﻿@model List<G_Shop.Areas.Admin.Models.CTHD>
+
+@{
+    ViewBag.Title = "CTHD";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-lg-12">
+    <h2>Chi tiết hoá đơn</h2>
+    <div class="col-md-7">
+        <dl class="dl-horizontal">
+            <dt>
+                Mã hóa đơn:
+            </dt>
+
+            <dd>
+                <p id="mahd">@ViewBag.MaHD</p>
+            </dd>
+            <dt>
+                Ngày giao hàng:
+            </dt>
+            <dd>
+                @Html.FormatValue(ViewBag.NgayGiaoHang, "{0:dd/MM/yyyy}")
+            </dd>
+            <dt>
+                Giờ giao hàng:
+            </dt>
+            <dd>
+                @ViewBag.GioGiaoHang
+            </dd>
+            <dt>
+                Địa chỉ giao hàng:
+            </dt>
+            <dd>
+                @*<input type="text" id="idDiaChi" value="@ViewBag.DiaChi" class="form-control" />*@ <button id="btnSuaDC" class="btn btn-success" style="display:none;">Lưu</button><div id="idMessage" style="color:green;"></div>
+                <textarea id="idDiaChi" value="@ViewBag.DiaChi" class="form-control" rows="4" cols="500"> @ViewBag.DiaChi
+                </textarea>
+                <button id="btnSuaDC" class="btn btn-success" style="display:none;">Lưu</button><div id="idMessage" style="color:green;"></div>
+            </dd>
+        </dl>
+        <hr />
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Sản phẩm</th>
+                    <th>Hình</th>
+                    <th>
+                        Giá
+                    </th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 1; }
+                @foreach(var item in Model) {
+                    <tr>
+                        <td id="stt@(i)" class="stt">@(i++)</td>
+                        <td>
+                            @item.TenCaThe
+                        </td>
+                        <td><img src="~/assets/client/images/@item.Hinh" style="width:100px;height:50px;" alt=""></td>
+                        <td>
+                            @Html.FormatValue(item.Gia, "{0:c}")
+                        </td>
+                        <td>
+                            <a href="#" class="remove-from-order" data-id="@item.MaCaThe">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td align="right"><strong>Tổng tiền:</strong></td>
+                    <td><strong id="tongtien">@Html.FormatValue(ViewBag.TongTien, "{0:c}")</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Tình trạng:
+            </dt>
+
+            <dd>
+                @*<a href="#" id="dynamicdata" data-type="select" data-pk="1" data-value=@ViewBag.TinhTrang data-title="Chọn tình trạng hóa đơn"></a>*@
+                @*<a href="#" id="status" data-type="select" data-pk="1" data-title="Chọn tình trạng hóa đơn"></a><button id="enable" class="btn btn-default">Sửa <span class="glyphicon glyphicon-edit"></span></button>*@
+                @using(Html.BeginForm("SuaTinhTrang", "AdminHome", FormMethod.Post)) {
+                    <input type="hidden" name="mahoadon" value="@ViewBag.MaHD" />
+                    <input type="hidden" name="i" value="@ViewBag.i" />
+                    <select name="tinhtrang" class="form-control" id="selTinhTrang">
+                        <option value="Mới đặt hàng">Mới đặt hàng</option>
+                        <option value="Đã xác nhận" @(ViewBag.TinhTrang == "Đã xác nhận" ? "selected='selected'" : "")>Đã xác nhận</option>
+                        <option value="Giao hàng thành công" @(ViewBag.TinhTrang == "Giao hàng thành công" ? "selected='selected'" : "")>Giao hàng thành công</option>
+                        <option value="Thất bại" @(ViewBag.TinhTrang == "Thất bại" ? "selected='selected'" : "")>Thất bại</option>
+                    </select>
+                    <button id="btnSubmit" type="submit" class="btn btn-success" style="display:none">Lưu</button>
+                }
+            </dd>
+
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt>
+                Tên người mua:
+            </dt>
+
+            <dd>
+                @ViewBag.TenNguoiDung
+            </dd>
+
+            <dt>
+                Số điện thoại:
+            </dt>
+
+            <dd>
+                @ViewBag.SDT
+            </dd>
+        </dl>
+    </div>
+</div>
+<br />
+<div class="col-md-12">
+    <dl class="dl-horizontal">
+        <dt></dt>
+        <dd>
+
+            <a href="/Admin/AdminHome/HoaDon?i=@ViewBag.i" title="Quay lại" class="btn btn-default">Quay lại</a>
+        </dd>
+    </dl>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".remove-from-order").click(function () {
+            var stt = 1;
+            var idcathe = $(this).attr("data-id");
+            var idhoadon = $("#mahd").text();
+            // Xóa <tr> chứa sản phẩm bị xóa
+
+            $(this).parents("tr").remove();
+            $.ajax({
+                url: "/AdminHome/CapNhatCTHD",
+                data: { macathe: idcathe, mahoadon: idhoadon },
+                success: function (response) {
+                    $("#tongtien").text(response.tong);
+                    $("td[id^=stt]").each(function (index, element) {
+                        $(this).prop("id", "stt" + stt);
+                        $("#stt" + stt).text(stt);
+                        stt++;
+                    });
+                }
+            });
+
+            return false;
+        });
+        $("#idDiaChi").keyup(function () {
+            $("#btnSuaDC").show();
+        });
+        $("#btnSuaDC").click(function () {
+            var diachi = $("#idDiaChi").val();
+            var idhoadon = $("#mahd").text();
+            $.ajax({
+                url: "/AdminHome/CapNhatDiaChi",
+                data: { mahoadon: idhoadon, diachi: diachi },
+                success: function (response) {
+                    $("#btnSuaDC").hide();
+                    $("#idMessage").text("Lưu thành công").delay(2000).hide(0);
+                }
+            });
+
+        });
+
+        $("#selTinhTrang").change(function () {
+            $("#btnSubmit").show();
+        });
+    });
+</script>

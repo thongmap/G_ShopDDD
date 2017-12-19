@@ -1,0 +1,167 @@
+﻿@model G_Shop.Models.NguoiDung
+@{
+    ViewBag.Title = "Đăng kí";
+    Layout = "~/Views/Shared/_LayoutNotcate.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng ký</title>
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+
+    @*<style>
+        #login-box {
+            margin-top: 80px;
+        }
+    </style>*@
+
+
+</head>
+<body>
+    <div id="login-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-offset-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Đăng kí</h2>
+                        </div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                 @Html.ValidationSummary()
+                                <div class="form-horizontal">
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Tên đăng nhập:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control" })
+                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.TenDangNhap)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Họ và tên:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.TenNguoiDung, new { @class = "form-control" })
+                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.TenNguoiDung)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="pwd">Mật khẩu:</label>
+                                        <div class="col-sm-8">
+                                            @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", @id = "pass" })
+                                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.MatKhau)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" >Xác nhận mật khẩu:</label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" id="pass2" onkeyup="ValidatePass()" />
+                                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                            <span id="verify" class="text-danger"></span>
+                                            <span id="verify1" class="text-success"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Email:</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" name="email" class="form-control"/>
+                                            @*@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })*@
+                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                            @*@Html.ValidationMessageFor(model => model.Email)*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Ngày sinh:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="ngaysinh" name="ngaysinh" class="form-control custom_datepicker" onkeydown="return false" />
+                                            <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.NgaySinh)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="gioitinh">Giới tính:</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("GioiTinh", new List<SelectListItem>{
+                                            new SelectListItem{ Text="Nam", Value="Nam"},
+                                            new SelectListItem{ Text="Nữ", Value="Nữ"}
+                                            }, new { @class = "form-control" })
+                                            <span class="glyphicon glyphicon-heart form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.GioiTinh)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Địa chỉ:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                                            <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.DiaChi)
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <label class="control-label col-sm-4" for="username">Số điện thoại:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+                                            <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                                            @Html.ValidationMessageFor(model => model.SoDienThoai)
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group has-feedback">
+                                        <div class="col-lg-offset-4 col-sm-8">
+                                            <p>
+                                                Bạn đã có tài khoản?
+                                                <a href="/Account/Login">Đăng nhập</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-4 col-sm-8">
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Đăng kí</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-4 col-sm-8">
+                                            <p>
+                                                
+                                                <a href="/Home/Index"><span class="glyphicon glyphicon-home"></span> Về trang chủ</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        
+        $(".custom_datepicker").datepicker({
+            maxDate: 0
+        });
+        function ValidatePass() {
+            var pass1 = document.getElementById("pass").value;
+            var pass2 = document.getElementById("pass2").value;
+            if (pass1 != pass2) {
+                document.getElementById("verify").innerHTML = "Không khớp mật khẩu";
+                document.getElementById("verify1").innerHTML = "";
+            }
+            else {
+                document.getElementById("verify1").innerHTML = "Mật khẩu trùng khớp";
+                document.getElementById("verify").innerHTML = "";
+            }
+        }
+    </script>
+
+</body>
+</html>

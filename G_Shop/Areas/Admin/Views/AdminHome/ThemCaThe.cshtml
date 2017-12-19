@@ -1,0 +1,83 @@
+﻿@model G_Shop.Models.CaThe
+<div id="ThemCaThe" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thêm mới</h4>
+            </div>
+            <div class="modal-body">
+
+                @using(Html.BeginForm("Them", "AdminHome", FormMethod.Post, new { @id = "form", @class = "form-horizontal", enctype = "multipart/form-data" })) {
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="ten">Tên:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.TenCaThe, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="mota">Mô tả:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.MoTa, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="tuoi">Ngày sinh:</label>
+                        <div class="col-sm-10">
+                            <input class="custom_datepicker form-control" type="text" name="NgaySinh" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="gia">Giá bán:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.GiaBan, new { @class = "form-control" })
+                            @Html.HiddenFor(model => model.MaLoai)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="gia">Giá mua:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.GiaMua, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="gia">Khuyến mãi:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(model => model.KhuyenMai, new { @class = "form-control", @value = "0" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Video:</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" name="filevideo" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="hinh">Hình:</label>
+                        <div class="col-sm-10">
+                            <div id="dZUpload" class="dropzone dz-clickable">
+                                <div class="dz-default dz-message">
+                                    <span>Kéo thả 4 file hình ảnh .jpg, .png, .jpge hoặc click để upload.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="hinh"></label>
+                        <div class="col-sm-10">
+
+                            <button type="submit" class="btn btn-success" id="btnThem"><i class="glyphicon glyphicon-floppy-disk"></i> Thêm</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

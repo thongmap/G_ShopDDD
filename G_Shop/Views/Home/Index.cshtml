@@ -1,0 +1,37 @@
+﻿@model PagedList.IPagedList<G_ShopDomain.Entities.CaThe>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/Shoppingcart.js"></script>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <h3>Danh sách thú cưng mới nhất</h3>
+    </div>
+</div>
+<div class="row">
+    @for(int i = 0; i < Model.Count; i++) {
+        <div class="col-sm-4 col-lg-4 col-md-4">
+            <div class="thumbnail">
+                <img src="~/assets/client/images/@(Model[i].HinhAnh.Substring(0, Model[i].HinhAnh.IndexOf("|")))" style="width:320px;height:150px;" alt="">
+                <div class="caption">
+                    <h5 class="pull-right">@Html.FormatValue(Model[i].GiaBan, "{0:c}")</h5>
+                    <h4>@Model[i].TenCaThe</h4>
+                    <a href="@Url.Action("ChiTiet",new { MaLoai= Model[i].MaLoai, MaCaThe= Model[i].MaCaThe})" class="pull-right">Xem chi tiết</a>
+                    @if(Session["user"] != null && Model[i].TinhTrang=="Sẵn bán") {
+                        <button class="add-to-cart btn-lg gioHang" data-id="@Model[i].MaCaThe" data-toggle="tooltip" title="Thêm vào giỏ hàng">
+                            <span class="glyphicon glyphicon-shopping-cart">
+
+                            </span>
+                        </button>
+                        @*<a href="#"><img style="width:50px;height:30px" class="add-to-cart" data-id="@Model[i].MaCaThe" src="~/assets/client/images/Add to basket.png" /></a>*@
+                    } else {
+                        <p class="text-danger">@(Model[i].TinhTrang != "Sẵn bán" ? "(Đã bán)" : "")</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
