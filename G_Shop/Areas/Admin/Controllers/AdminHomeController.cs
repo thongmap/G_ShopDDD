@@ -15,6 +15,7 @@ using G_ShopApplication;
 namespace G_Shop.Areas.Admin.Controllers {
     public class AdminHomeController : Controller {
         UserService user = new UserService();
+        GShopEntities db = new GShopEntities();
         public List<HttpPostedFileBase> fileUpload = new List<HttpPostedFileBase>();
         public List<HttpPostedFileBase> fileUpload2 = new List<HttpPostedFileBase>();
         // GET: Admin/Home

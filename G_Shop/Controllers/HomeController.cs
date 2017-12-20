@@ -22,26 +22,12 @@ namespace G_Shop.Controllers
         }
 
         public ActionResult Index(int page = 1, int pagesize = 3) {
-
-            //if (Session["user"] == null) {
-            //    return View();
-            //    //return RedirectToAction("Login", "Account");
-            //} else {
-
-            //if (Session["user"] == null) {
-            //    var model = ListAllPageging4(page, pagesize);
-            //    return View(model);
-            //} else {
-
-
                 var user = Session["user"] as NguoiDung;
                 if(user!=null)
                     ViewBag.tennguoidung = user.TenDangNhap;
             var model = ListAllPageging4(page, pagesize);
             //var model = new UserDAO().GetNewCaThe();
             return View(model);
-            //}
-
         }
         public IEnumerable<CaThe> ListAllPageging(int MaLoai,int page, int pagesize)
         {
@@ -68,12 +54,6 @@ namespace G_Shop.Controllers
             return PartialView(model);
         }
        public ActionResult ThuCung(int MaLoai, int page = 1, int pagesize = 6) {
-            //    if(Session["user"]==null)
-            //    {
-            //        return RedirectToAction("Login", "Account");
-            //    }
-            //    else
-            //    {
             var user = Session["user"] as NguoiDung;
             if(user!=null)
                 ViewBag.tennguoidung = user.TenDangNhap;
@@ -82,8 +62,6 @@ namespace G_Shop.Controllers
             ViewBag.MaLoai = MaLoai;
             //var model = new UserDAO().GetNewCaThe();
             return View(model);
-            // }
-
         }
         [HttpGet]
         public ActionResult ChiTiet(int MaLoai, int MaCaThe) {
