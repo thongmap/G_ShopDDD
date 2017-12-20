@@ -29,7 +29,18 @@ namespace G_ShopApplication
         {
             return CaTheRepo.Find(x => x.MaLoai == MaLoai && x.MaCaThe == MaCaThe).FirstOrDefault();
         }
-
+        public List<CaThe> GetNew()
+        {
+            return CaTheRepo.All().OrderByDescending(x => x.MaCaThe).Take(3).ToList();
+        }
+        public void AddCaThe(CaThe cathe)
+        {
+            CaTheRepo.Add(cathe);
+        }
+        public void Delete(int id)
+        {
+            CaTheRepo.Delete(CaTheRepo.Get(id));
+        }
         public List<CaThe> TimCaThe(string ten)
         {
             return CaTheRepo.Find(x => x.TenCaThe.Contains(ten)).ToList();

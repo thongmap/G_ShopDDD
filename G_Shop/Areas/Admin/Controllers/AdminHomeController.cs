@@ -10,10 +10,11 @@ using System.IO;
 using System.Globalization;
 using G_ShopDomain;
 using G_ShopDomain.Entities;
+using G_ShopApplication;
 
 namespace G_Shop.Areas.Admin.Controllers {
     public class AdminHomeController : Controller {
-        GShopEntities db = new GShopEntities();
+        UserService user = new UserService();
         public List<HttpPostedFileBase> fileUpload = new List<HttpPostedFileBase>();
         public List<HttpPostedFileBase> fileUpload2 = new List<HttpPostedFileBase>();
         // GET: Admin/Home
@@ -42,7 +43,7 @@ namespace G_Shop.Areas.Admin.Controllers {
                 var dao = new UserDAO();
                 int result = dao.Login(model.UserName, model.Password);
                 if(result == 1) {
-                    var admin = dao.GetUser(model.UserName);
+                    var admin = user.GetUser(model.UserName);
                     if(admin.VaiTro == "Quản trị viên") {
                         Session["Admin"] = admin;
                         return RedirectToAction("Index", "User");

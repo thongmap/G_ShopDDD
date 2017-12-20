@@ -11,6 +11,7 @@ namespace G_Shop.Controllers
     public class HomeController : Controller
     {
         CaTheService cathe = new CaTheService();
+        LoaiService loai = new LoaiService();
         // GET: Products
        
        public IEnumerable<CaThe> ListAllPageging4(int page, int pagesize)
@@ -77,7 +78,7 @@ namespace G_Shop.Controllers
             if(user!=null)
                 ViewBag.tennguoidung = user.TenDangNhap;
             var model = ListAllPageging(MaLoai, page, pagesize);
-            ViewBag.TenLoai = new UserDAO().GetTenLoai_MaLoai(MaLoai);
+            ViewBag.TenLoai = loai.GetTenLoai(MaLoai);
             ViewBag.MaLoai = MaLoai;
             //var model = new UserDAO().GetNewCaThe();
             return View(model);
